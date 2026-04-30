@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the accompanying paper."
+title: "A Matrix-Free Galerkin Multigrid Solver and Failure-Mode Screen for Single-GPU 3D SIMP Linear Systems"
+type: software
+authors:
+  - family-names: Yang
+    given-names: Shaoliang
+    affiliation: "Santa Clara University"
+  - family-names: Wang
+    given-names: Jun
+    affiliation: "Santa Clara University"
+  - family-names: Wang
+    given-names: Yunsheng
+    affiliation: "Santa Clara University"
+repository-code: "https://github.com/nbbllxx0/Mixed-Precision-GMG-SIMP"
+license: BSD-3-Clause
+version: "1.0.0"
+date-released: "2026-04-21"
+keywords:
+  - topology optimization
+  - SIMP
+  - geometric multigrid
+  - mixed precision
+  - GPU
+  - BF16
+  - tensor cores
+  - FGMRES
+preferred-citation:
+  type: article
+  title: "A Matrix-Free Galerkin Multigrid Solver and Failure-Mode Screen for Single-GPU 3D SIMP Linear Systems"
+  authors:
+    - family-names: Yang
+      given-names: Shaoliang
+    - family-names: Wang
+      given-names: Jun
+    - family-names: Wang
+      given-names: Yunsheng
+  year: 2026
+  journal: "arXiv preprint"
+  doi: "10.48550/arXiv.2604.26441"
+  url: "https://arxiv.org/abs/2604.26441"
+  notes: "arXiv:2604.26441"

@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# CUDA / CuPy
+.cupy_cache/
+.runtime_tmp/
+*.cubin
+*.ptx
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Experiment outputs and local build artifacts
+results_phase1.json
+results_e1_e10_summary.json
+
+# Fresh benchmark outputs land at experiments/paper4/*.csv or explicit rerun
+# directories.
+experiments/paper4/*.csv
+experiments/paper4/*.json
+data/
+figures/figs/
+
+# Local rendered scratch figures
+tmp_figs/
+rerun_outputs/
+
+# Logs
+*.log
