@@ -1,14 +1,14 @@
-# A Matrix-Free Galerkin Multigrid Solver and Failure-Mode Screen for Single-GPU 3D SIMP Linear Systems
+# A Failure-Aware Matrix-Free Galerkin Multigrid Preconditioner for Single-GPU 3D SIMP Elasticity Systems
 
 Code-only public release accompanying:
 
 > Yang, S., Wang, J., and Wang, Y. (2026).  
-> *A Matrix-Free Galerkin Multigrid Solver and Failure-Mode Screen for Single-GPU 3D
-> SIMP Linear Systems.* arXiv:2604.26441  
+> *A Failure-Aware Matrix-Free Galerkin Multigrid Preconditioner for Single-GPU
+> 3D SIMP Elasticity Systems.* arXiv:2604.26441  
 > https://arxiv.org/abs/2604.26441
 
 This repository is the code-only public release accompanying the arXiv
-preprint. It contains source code, experiment drivers, figure-generation
+preprint and journal submission. It contains source code, experiment drivers, figure-generation
 scripts, environment pins, citation metadata, and documentation. It
 intentionally does not ship the manuscript source/PDF, submission manifests,
 runtime snapshots, generated result files, raw logs, retained density arrays,
@@ -154,12 +154,18 @@ cd figures
 python plot_figures.py --results-dir ../rerun_outputs/paper4 --figs-dir ../rerun_outputs/paper4_figs
 ```
 
+This writes the manuscript quantitative figure set, including both the combined
+and split FP32/BF16 E6 sensitivity-surface figures.
+
 Qualitative gallery generation requires locally supplied density arrays:
 
 ```bash
 cd figures
 python make_3d_renders.py --renders-dir ../rerun_outputs/topology_renders --figs-dir ../rerun_outputs/paper4_figs
 ```
+
+This writes the qualitative gallery, the four-panel main-context image, and the
+individual qualitative panels used for provenance checks.
 
 The released repository does not include retained density arrays or generated
 figure directories.
@@ -186,7 +192,7 @@ figure directories.
   rows.
 - E7 large-scale runs use FGMRES with restart 50.
 - E10 uses FGMRES with restart 50; the headline robustness table uses
-  `maxiter = 500`, while the broader basin screen uses `maxiter = 300`.
+  `maxiter = 500`, while the broader basin diagnostic uses `maxiter = 300`.
 - In E7, `vram_delta_mb` is the setup-time hierarchy-allocation delta measured
   around `gmg.setup(E_e)`. It is not a peak setup-plus-solve memory trace.
 - E8 reference timings use a cold-start GMG hierarchy-initialization

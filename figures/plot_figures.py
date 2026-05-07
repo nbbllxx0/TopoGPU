@@ -797,6 +797,72 @@ def fig_sensitivity_surface():
     fig.subplots_adjust(left=0.09, right=0.86, bottom=0.11, top=0.80,
                         wspace=0.22, hspace=0.45)
     _savefig(fig, 'F15_sensitivity_surface.pdf')
+    _fig_sensitivity_surface_one(
+        rows,
+        smoother='fp32',
+        output='F15_sensitivity_surface_fp32.pdf',
+        title='FP32 smoother sensitivity, FGMRES conservative path',
+    )
+    _fig_sensitivity_surface_one(
+        rows,
+        smoother='bf16',
+        output='F15_sensitivity_surface_bf16.pdf',
+        title='BF16 smoother sensitivity, FGMRES conservative path',
+    )
+
+
+def _fig_sensitivity_surface_one(rows, smoother, output, title):
+    sm_rows = [r for r in rows if r['fine_smoother'] == smoother]
+    if not sm_rows:
+        print(f'  skipped {output}: no rows for fine_smoother={smoother}')
+        return
+    restarts = sorted({int(r['restart']) for r in sm_rows})
+    levels = sorted({int(r['n_levels']) for r in sm_rows})
+    degrees = sorted({int(r['degree']) for r in sm_rows})
+    finite_times = [_f(r, 'time_s') for r in sm_rows if np.isfinite(_f(r, 'time_s'))]
+    norm = mpl.colors.Normalize(vmin=0.0, vmax=max(finite_times))
+
+    fig, axes = plt.subplots(1, len(restarts), figsize=(10.8, 3.9), sharey=True)
+    axes = np.atleast_1d(axes)
+    for ax, restart in zip(axes, restarts):
+        grid = np.full((len(levels), len(degrees)), np.nan)
+        labels = [["" for _ in degrees] for _ in levels]
+        converged = np.zeros((len(levels), len(degrees)), dtype=bool)
+        for r in sm_rows:
+            if int(r['restart']) != restart:
+                continue
+            li = levels.index(int(r['n_levels']))
+            di = degrees.index(int(r['degree']))
+            grid[li, di] = _f(r, 'time_s')
+            converged[li, di] = int(r['converged']) != 0
+            labels[li][di] = f"{_f(r, 'time_s'):.2f}s\n{_f(r, 'iters'):.0f} it"
+
+        im = ax.imshow(grid, cmap='viridis', aspect='auto', norm=norm)
+        for li in range(len(levels)):
+            for di in range(len(degrees)):
+                if not np.isfinite(grid[li, di]):
+                    continue
+                text_color = 'white' if grid[li, di] < 0.65 * norm.vmax else 'black'
+                ax.text(di, li, labels[li][di], ha='center', va='center',
+                        color=text_color, fontsize=10, fontweight='bold')
+                if not converged[li, di]:
+                    ax.add_patch(mpl.patches.Rectangle(
+                        (di - 0.5, li - 0.5), 1.0, 1.0,
+                        fill=False, hatch='////', edgecolor=RED, linewidth=1.5,
+                    ))
+
+        ax.set_title(f'restart {restart}', fontsize=12)
+        ax.set_xticks(range(len(degrees)))
+        ax.set_xticklabels([f'deg {d}' for d in degrees])
+        ax.set_yticks(range(len(levels)))
+        ax.set_yticklabels([f'{lv} levels' for lv in levels])
+        ax.tick_params(labelsize=10)
+
+    fig.subplots_adjust(left=0.07, right=0.86, bottom=0.16, top=0.82, wspace=0.18)
+    cax = fig.add_axes([0.90, 0.16, 0.018, 0.66])
+    fig.colorbar(im, cax=cax, label='Wall time (s)')
+    fig.suptitle(title, fontsize=14, fontweight='bold')
+    _savefig(fig, output)
 
 
 def _legacy_fig_robustness_basin():

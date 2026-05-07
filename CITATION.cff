@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the accompanying paper."
-title: "A Matrix-Free Galerkin Multigrid Solver and Failure-Mode Screen for Single-GPU 3D SIMP Linear Systems"
+title: "A Failure-Aware Matrix-Free Galerkin Multigrid Preconditioner for Single-GPU 3D SIMP Elasticity Systems"
 type: software
 authors:
   - family-names: Yang
@@ -27,7 +27,7 @@ keywords:
   - FGMRES
 preferred-citation:
   type: article
-  title: "A Matrix-Free Galerkin Multigrid Solver and Failure-Mode Screen for Single-GPU 3D SIMP Linear Systems"
+  title: "A Failure-Aware Matrix-Free Galerkin Multigrid Preconditioner for Single-GPU 3D SIMP Elasticity Systems"
   authors:
     - family-names: Yang
       given-names: Shaoliang

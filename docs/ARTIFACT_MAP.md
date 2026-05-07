@@ -1,14 +1,14 @@
 # Mixed-Precision GMG Code Release Map
 
-**Title:** A Matrix-Free Galerkin Multigrid Solver and Failure-Mode Screen for Single-GPU 3D SIMP Linear Systems
+**Title:** A Failure-Aware Matrix-Free Galerkin Multigrid Preconditioner for Single-GPU 3D SIMP Elasticity Systems
 
 **Release scope:** code-only public GitHub release accompanying arXiv:2604.26441
-(https://arxiv.org/abs/2604.26441). The repository contains implementation
-code, experiment drivers, figure-generation scripts, documentation, citation
-metadata, license text, and the environment specification. It intentionally does
-not include manuscript source/PDF files, submission manifests, runtime
-snapshots, generated result files, raw logs, retained density arrays, root data
-directories, or generated manuscript figures.
+(https://arxiv.org/abs/2604.26441) and the journal submission. The repository
+contains implementation code, experiment drivers, figure-generation scripts,
+documentation, citation metadata, license text, and the environment
+specification. It intentionally does not include manuscript source/PDF files,
+submission manifests, runtime snapshots, generated result files, raw logs,
+retained density arrays, root data directories, or generated manuscript figures.
 
 Fresh reruns should be written to an explicit output directory such as
 `rerun_outputs/paper4`. Figure-generation scripts should be pointed at those
@@ -65,13 +65,13 @@ python experiments/paper4/run_experiments_e1_e10.py --experiments all --out reru
 | E5 `kappa_eff` spectral-proxy map | `F6_kappa_eff.pdf` | `e5_kappa_eff` | `e5_kappa_eff.csv` |
 | E5 direct BF16 validation | paper table input | `e5_bf16_direct_validation` (`E5B`) | `e5_bf16_validation.csv`, `e5_bf16_validation_residual_histories.csv` |
 | E6 ablations | `F7_ablations.pdf` | `e6_ablations` | `e6a_precision_ablation.csv`, `e6a_precision_ablation_trials.csv`, `e6b_depth_sweep.csv`, `e6b_depth_sweep_trials.csv`, `e6c_vcycle_vs_wcycle.csv`, `e6c_vcycle_vs_wcycle_trials.csv`, `e6d_smoother_type.csv`, `e6d_smoother_type_trials.csv` |
-| E6 joint sensitivity sweep | `F15_sensitivity_surface.pdf` | `e6_ablations` | `e6_sensitivity_surface.csv`, `e6_sensitivity_surface_trials.csv` |
-| E6 high-contrast smoother screen | paper table input | `e6_high_contrast_smoother_ablation` (`E6H`) | `e6_high_contrast_smoother.csv`, `e6_high_contrast_smoother_residual_histories.csv` |
+| E6 joint sensitivity sweep | `F15_sensitivity_surface.pdf`, `F15_sensitivity_surface_fp32.pdf`, `F15_sensitivity_surface_bf16.pdf` | `e6_ablations` | `e6_sensitivity_surface.csv`, `e6_sensitivity_surface_trials.csv` |
+| E6 high-contrast smoother diagnostic | paper table input | `e6_high_contrast_smoother_ablation` (`E6H`) | `e6_high_contrast_smoother.csv`, `e6_high_contrast_smoother_residual_histories.csv` |
 | E7 large-scale single solves | `F8_large_scale.pdf` | `e7_large_scale` | `e7_large_scale.csv`, `e7_large_scale_trials.csv` |
 | E8 external baseline | `F9_external_baseline.pdf` | `e8_external_baseline` | `e8_external_baseline.csv`, `e8_external_baseline_trials.csv` |
 | E9 energy efficiency | table input | `e9_energy` | `e9_energy.csv`, `e9_energy_trials.csv` |
 | E10 robustness table | `F10_robustness.pdf` | `e10_robustness_edges` | `e10_robustness.csv` |
-| E10 single-seed basin screen | `F16_robustness_basin.pdf` | `e10_robustness_edges` | `e10_basin.csv` |
+| E10 single-seed basin diagnostic | `F16_robustness_basin.pdf` | `e10_robustness_edges` | `e10_basin.csv` |
 
 ## 4. Figure Generation
 
@@ -89,8 +89,19 @@ cd figures
 python make_3d_renders.py --renders-dir ../rerun_outputs/topology_renders --figs-dir ../rerun_outputs/paper4_figs
 ```
 
+The qualitative render workflow writes `F11_gallery.pdf`,
+`F11_main_context.png`, and individual `F11a`--`F11d` panel PDFs from the same
+locally supplied retained density arrays.
+
 The code-only release does not ship retained density arrays or generated figure
 directories.
+
+The journal manuscript source package prefixes included figure filenames with
+`figs_`. For example, the release-generated `F11_main_context.png`,
+`F15_sensitivity_surface_fp32.pdf`, and `F15_sensitivity_surface_bf16.pdf`
+correspond to manuscript-source assets `figs_F11_main_context.png`,
+`figs_F15_sensitivity_surface_fp32.pdf`, and
+`figs_F15_sensitivity_surface_bf16.pdf`.
 
 ## 5. Provenance Notes
 

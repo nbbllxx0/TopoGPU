@@ -6,8 +6,9 @@ Pipeline:
     rho (npy)  ->  marching_cubes (skimage)  ->  pyvista.PolyData
                                               ->  PBR off-screen render to PNG
 
-Output: figs/F11_gallery.pdf  (2x3 grid)
-        figs/F11a-F11d.pdf    (individual panels)
+Output: figs/F11_gallery.pdf       (2x3 gallery)
+        figs/F11_main_context.png  (four-panel manuscript context image)
+        figs/F11a-F11d.pdf         (individual panels)
 
 Run from the figures directory:
     python make_3d_renders.py --renders-dir ../rerun_outputs/topology_renders --figs-dir ../rerun_outputs/paper4_figs
@@ -218,6 +219,30 @@ def make_gallery_pdf(panels, out_pdf, ncols=3):
     plt.close(fig)
 
 
+def trim_white(img, pad=12):
+    gray = img.convert("L")
+    mask = gray.point(lambda p: 255 if p < 248 else 0)
+    bbox = mask.getbbox()
+    if bbox is None:
+        return img
+    left = max(bbox[0] - pad, 0)
+    top = max(bbox[1] - pad, 0)
+    right = min(bbox[2] + pad, img.width)
+    bottom = min(bbox[3] + pad, img.height)
+    return img.crop((left, top, right, bottom))
+
+
+def make_main_context_png(panels, out_png):
+    fig, axes = plt.subplots(2, 2, figsize=(8.2, 4.8), facecolor="white")
+    for ax, (png, title) in zip(axes.flat, panels):
+        ax.imshow(trim_white(Image.open(png).convert("RGB")))
+        ax.set_title(title, fontsize=10.5, fontfamily="serif", pad=3)
+        ax.set_axis_off()
+    fig.tight_layout(pad=0.15, h_pad=0.45, w_pad=0.35)
+    fig.savefig(out_png, dpi=300, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+
+
 def main(renders_dir=None, figs_dir=None):
     configure_paths(renders_dir=renders_dir, figs_dir=figs_dir)
     # 1. render each structure to PNG
@@ -249,6 +274,18 @@ def main(renders_dir=None, figs_dir=None):
         out_pdf = FIGS / (name + ".pdf")
         make_figure_from_png(png, out_pdf, title=lbl)
         print(f"  wrote {out_pdf}")
+
+    context = FIGS / "F11_main_context.png"
+    make_main_context_png(
+        [
+            (png_by_stem["cantilever_216k_rho_best"], r"(a) Cantilever 216k, $V_f=0.3$"),
+            (png_by_stem["bridge_216k_rho_best"], r"(b) Bridge 216k, $V_f=0.3$"),
+            (png_by_stem["torsion_500k_rho_best"], r"(c) Torsion 499k, $V_f=0.25$"),
+            (png_by_stem["cantilever_1m_rho_best"], r"(d) Cantilever 1M, $V_f=0.3$"),
+        ],
+        context,
+    )
+    print(f"  wrote {context}")
 
     print("done.")
 
