@@ -3,9 +3,15 @@ nav:
   - Home: index.md
   - Installation: installation.md
   - Quick Start: quickstart.md
+  - Case Definitions: case_definitions.md
+  - YAML Suites: yaml_suites.md
+  - Solver Options: solver_options.md
+  - Evidence Bundles: evidence_bundles.md
+  - Rendering: rendering.md
+  - Benchmark Reproduction: benchmark_reproduction.md
   - Examples: examples.md
   - API: api.md
   - Reproducibility: reproducibility.md
+  - CUDA Troubleshooting: troubleshooting_cuda.md
   - Limitations: limitations.md
   - Citation: citation.md
-

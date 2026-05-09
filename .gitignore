@@ -13,7 +13,7 @@ dist/
 .venv/
 venv/
 env/
-.local_site/
+.local_site*/
 
 # CUDA / CuPy
 .cupy_cache/

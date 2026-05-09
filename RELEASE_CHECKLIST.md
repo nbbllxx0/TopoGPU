@@ -1,7 +1,8 @@
 # TopoGPU v0.1.0 Release Checklist
 
-This repository is prepared for a package-first TopoGPU release, but the
-release is not complete until the external publication steps below are done.
+This repository has a public package-first TopoGPU release. The v0.1.0 tag is
+archived on Zenodo; later documentation and manuscript hardening changes are on
+`main` and should be released as v0.1.1 if a new archived snapshot is needed.
 
 ## Local Package Gate
 
@@ -26,15 +27,15 @@ release is not complete until the external publication steps below are done.
 - [x] Lightweight import/API/CLI tests pass in the ambient environment
 - [x] Full SolverV4 verification passes in the pinned `topogpu` environment
 - [x] Small CUDA example passes in the pinned `topogpu` environment
-- [ ] Release artifact manifest is regenerated from the final release tree
+- [x] Release artifact manifest is regenerated from the final release tree
 
 ## GitHub and Archive Gate
 
-- [ ] Create or confirm public repository: `https://github.com/nbbllxx0/topogpu`
-- [ ] Commit the intended release files on `main`
-- [ ] Tag `v0.1.0`
-- [ ] Push `main` and `v0.1.0`
-- [ ] Publish the GitHub release
+- [x] Create or confirm public repository: `https://github.com/nbbllxx0/TopoGPU`
+- [x] Commit the intended release files on `main`
+- [x] Tag `v0.1.0`
+- [x] Push `main` and `v0.1.0`
+- [x] Publish the GitHub release
 - [x] Archive the release with Zenodo
 - [x] Insert the Zenodo DOI into `README.md`, `CITATION.cff`, docs, and papers
 
@@ -44,3 +45,5 @@ release is not complete until the external publication steps below are done.
 - [x] Full software-publication manuscript folder exists
 - [x] Longer technical manuscript and supplement exist
 - [x] Replace release placeholders with final repository/tag/DOI metadata
+- [x] Add JOSS-style AI usage disclosure to the software paper
+- [x] Remove pending-release and internal manuscript-use wording

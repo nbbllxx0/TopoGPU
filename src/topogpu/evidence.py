@@ -52,6 +52,22 @@ class EvidenceBundle:
         self.add(path, role="density")
         return path
 
+    def write_array(self, name: str, values: np.ndarray, role: str) -> Path:
+        if not name.endswith(".npy"):
+            raise ValueError("Evidence arrays must use a .npy filename.")
+        self.root.mkdir(parents=True, exist_ok=True)
+        path = self.root / name
+        np.save(path, values)
+        self.add(path, role=role)
+        return path
+
+    def write_render_metadata(self, metadata: dict[str, Any]) -> Path:
+        self.root.mkdir(parents=True, exist_ok=True)
+        path = self.root / "render_metadata.json"
+        path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+        self.add(path, role="render_metadata")
+        return path
+
     def add(self, path: Path, role: str) -> None:
         resolved = path.resolve()
         self.rows.append(
@@ -72,4 +88,3 @@ class EvidenceBundle:
             writer.writeheader()
             writer.writerows(self.rows)
         return path
-

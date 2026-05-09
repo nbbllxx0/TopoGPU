@@ -47,6 +47,15 @@ class OptimizationResult:
         bundle = EvidenceBundle(Path(path))
         bundle.write_history(self.history)
         bundle.write_density(self.rho_final)
+        bundle.write_render_metadata(
+            {
+                "density_threshold": 0.5,
+                "scalar": "density",
+                "scalar_normalization": "per_case_0_1",
+                "camera": "orthographic_default",
+                "source": "OptimizationResult.save",
+            }
+        )
         bundle.write_summary(self.summary)
         bundle.write_manifest()
         return bundle

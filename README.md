@@ -4,13 +4,13 @@ GPU-accelerated 3D SIMP topology optimization in Python, with structured case
 definitions, matrix-free SolverV4 state solves, bounded OC updates,
 verification checks, and manifest-tracked evidence bundles.
 
-This repository is being prepared as the package-first release for the
-toolkit/software paper:
+This repository is the package-first release for the toolkit/software paper:
 
 > **TopoGPU: GPU-Accelerated 3D SIMP Topology Optimization in Python**
 
-The package currently wraps the verified `gpu_fem` SolverV4 research core while
-the paper-facing scripts are being consolidated into a stable public API.
+The package wraps the verified `gpu_fem` SolverV4 research core through a stable
+public API, runnable examples, CLI commands, documentation, tests, and
+manifest-tracked evidence outputs.
 
 ## Package Quick Start
 
@@ -21,8 +21,11 @@ conda env create -f environment.yml
 conda activate topogpu
 pip install -e .
 python -c "import topogpu; print(topogpu.__version__)"
-python examples/cantilever_3d.py --small
-topogpu verify
+python examples/cantilever_3d.py --small --backend cpu
+topogpu verify --small
+topogpu run cases/cantilever_3d.yaml --small --backend cpu
+topogpu render runs/cantilever_3d
+topogpu benchmark cases/production_suite.yaml
 ```
 
 On RTX 50-series / CUDA 13 workstations, make sure the CUDA 13 toolkit is the
@@ -63,10 +66,41 @@ result = tg.SIMPSolver(
 - `src/gpu_fem/` existing SolverV4 implementation core
 - `examples/` runnable package examples
 - `cases/` YAML case-suite declarations
-- `tests/` import/filter/API smoke tests
-- `docs/` installation, quickstart, reproducibility, and limitations pages
+- `tests/` import/filter/API/CLI/evidence smoke tests
+- `docs/` installation, quickstart, cases, solver options, evidence, rendering, reproducibility, CUDA troubleshooting, and limitations pages
 - `paper/` short software-paper draft and bibliography
 - `CITATION.cff` with repository and Zenodo DOI metadata
+
+## Evidence Bundle Outputs
+
+`OptimizationResult.save("runs/case_id")` writes:
+
+```text
+runs/case_id/
+  history.csv
+  summary.json
+  rho_final.npy
+  render_metadata.json
+  ARTIFACT_MANIFEST.csv
+```
+
+Figure-producing runs may also include scalar arrays such as `disp_elem.npy`.
+Every manifest row includes a SHA256 hash.
+
+## Citation, Support, and Contributing
+
+Print citation metadata:
+
+```bash
+topogpu cite
+```
+
+Repository: <https://github.com/nbbllxx0/TopoGPU>  
+Archived DOI: <https://doi.org/10.5281/zenodo.20100693>  
+Issues and support: <https://github.com/nbbllxx0/TopoGPU/issues>
+
+See `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and `CHANGELOG.md` for repository
+workflow and release notes.
 
 ## Legacy Solver Paper Context
 

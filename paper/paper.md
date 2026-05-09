@@ -23,14 +23,14 @@ bibliography: paper.bib
 
 # Summary
 
-TopoGPU is a Python package for reproducible structured-grid three-dimensional
-SIMP topology optimization on GPU workstations. It provides case definitions,
-density filtering, bounded optimality-criteria updates, matrix-free equilibrium
-solves through the SolverV4 backend, numerical verification checks, benchmark
-histories, topology rendering hooks, and manifest-tracked artifact bundles. The
-package is intended for researchers who need a runnable, inspectable GPU
-topology-optimization workflow rather than only final topology images or
-manuscript tables.
+TopoGPU is an open-source Python/CUDA package for reproducible structured-grid
+three-dimensional SIMP topology optimization. It provides case constructors,
+YAML case suites, density filtering, bounded optimality-criteria updates,
+matrix-free GPU state solves, verification commands, rendering metadata, and
+manifest-tracked evidence bundles. The package targets researchers, graduate
+students, and computational mechanics groups who need runnable GPU
+topology-optimization examples with explicit boundary conditions, residual
+histories, cap diagnostics, and archived artifacts.
 
 The initial release exposes a public `topogpu` API over the existing
 matrix-free `gpu_fem` implementation core. A typical use is:
@@ -44,9 +44,9 @@ result = tg.SIMPSolver(backend="cuda", linear_solver="pcg_gmg",
 result.save("runs/cantilever_3d")
 ```
 
-Each saved result can include `history.csv`, `summary.json`, `rho_final.npy`,
-and `ARTIFACT_MANIFEST.csv`, allowing figures and tables to be traced back to
-run-level evidence.
+Each saved result writes `history.csv`, `summary.json`, `rho_final.npy`,
+`render_metadata.json`, and `ARTIFACT_MANIFEST.csv`, allowing figures and tables
+to be traced back to run-level evidence.
 
 # Statement of Need
 
@@ -59,13 +59,17 @@ multigrid preconditioners, GPU kernels, and careful benchmark protocols
 [@aage2015; @aage2017; @yang2026fused; @yang2026gmg]. These details are often
 hard to reconstruct from a final rendered topology or a single timing table.
 
-TopoGPU addresses this gap by packaging the workflow around reproducible cases
-and evidence artifacts. The package does not claim to solve all topology
-optimization variants. Its first public scope is deliberately narrow:
-structured-grid 3D compliance minimization with SIMP densities, density
+TopoGPU targets users who need a compact GPU baseline between educational
+MATLAB/CPU examples and full HPC frameworks. Its public scope is deliberately
+narrow: structured-grid 3D compliance minimization with SIMP densities, density
 filtering, bounded OC updates, and SolverV4-backed linear state solves. Within
 that scope, TopoGPU emphasizes installable code, example cases, numerical
 verification, benchmark-role classification, and artifact manifests.
+
+The package is justified as a separate research artifact because its contribution
+is the workflow boundary: case definitions, package-level API, CLI commands,
+verification tests, role-gated evidence, and manifest-tracked outputs around the
+existing matrix-free solver backend.
 
 # Functionality
 
@@ -77,7 +81,8 @@ TopoGPU currently provides:
 - `SIMPSolver` with CPU smoke-test and CUDA/SolverV4 execution paths;
 - `OptimizationResult.save()` for evidence-bundle outputs;
 - command-line entry points for citation metadata, case listing, lightweight
-  runs, and numerical verification;
+  runs, rendering metadata, benchmark-suite declarations, and numerical
+  verification;
 - YAML case-suite declarations for examples, production candidates, and stress
   diagnostics;
 - documentation for installation, quick start, reproducibility, and limitations.
@@ -92,7 +97,8 @@ The current implementation distinguishes evidence roles:
 | Stress diagnostic | intentionally reported conditioning or cap-hit behavior |
 | Invalid | missing, inconsistent, or incomplete artifact evidence |
 
-This separation prevents stress cases from being promoted into timing claims.
+This separation lets users distinguish verified runs, reference benchmark rows,
+visual samples, and diagnostic failures.
 
 # Verification and Reproducibility
 
@@ -102,7 +108,10 @@ The package exposes the following minimum verification commands:
 pip install -e .
 python -c "import topogpu; print(topogpu.__version__)"
 python examples/cantilever_3d.py --small
-topogpu verify
+topogpu verify --small
+topogpu run cases/cantilever_3d.yaml --small --backend cpu
+topogpu render runs/cantilever_3d
+topogpu benchmark cases/production_suite.yaml
 pytest
 ```
 
@@ -130,5 +139,15 @@ Release: `v0.1.0`.
 Archived DOI: `10.5281/zenodo.20100693`.
 
 License: BSD-3-Clause.
+
+Documentation: `https://github.com/nbbllxx0/TopoGPU/tree/main/docs`.
+
+Issue tracker and pull requests: `https://github.com/nbbllxx0/TopoGPU/issues`.
+
+# AI Usage Disclosure
+
+AI-assisted tools were used during drafting, software packaging, and
+documentation cleanup. The authors reviewed, edited, and verified the submitted
+manuscript, source code, tests, commands, and release metadata.
 
 # References
