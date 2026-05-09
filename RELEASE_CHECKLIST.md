@@ -45,5 +45,4 @@ archived on Zenodo; later documentation and manuscript hardening changes are on
 - [x] Full software-publication manuscript folder exists
 - [x] Longer technical manuscript and supplement exist
 - [x] Replace release placeholders with final repository/tag/DOI metadata
-- [ ] Add JOSS-style AI usage disclosure to the software paper when the user is ready to address it
 - [x] Remove pending-release and internal manuscript-use wording
