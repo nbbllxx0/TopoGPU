@@ -4,12 +4,10 @@
 topogpu cite
 ```
 
-The first public release should be archived through Zenodo after the `v0.1.0`
-GitHub release. Insert the resulting DOI into:
+Preferred software citation:
 
-- `CITATION.cff`
-- `README.md`
-- this documentation
-- the software paper
-- the technical manuscript software-availability section
+Yang, S., Wang, J., and Wang, Y. (2026). TopoGPU: GPU-Accelerated 3D SIMP
+Topology Optimization in Python. Version v0.1.0. Zenodo.
+https://doi.org/10.5281/zenodo.20100693
 
+The same DOI is recorded in `CITATION.cff`.

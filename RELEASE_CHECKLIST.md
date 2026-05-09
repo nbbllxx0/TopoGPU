@@ -35,12 +35,12 @@ release is not complete until the external publication steps below are done.
 - [ ] Tag `v0.1.0`
 - [ ] Push `main` and `v0.1.0`
 - [ ] Publish the GitHub release
-- [ ] Archive the release with Zenodo
-- [ ] Insert the Zenodo DOI into `README.md`, `CITATION.cff`, docs, and papers
+- [x] Archive the release with Zenodo
+- [x] Insert the Zenodo DOI into `README.md`, `CITATION.cff`, docs, and papers
 
 ## Paper Gate
 
 - [x] Short software-paper draft folder exists
 - [x] Full software-publication manuscript folder exists
 - [x] Longer technical manuscript and supplement exist
-- [ ] Replace release placeholders with final repository/tag/DOI metadata
+- [x] Replace release placeholders with final repository/tag/DOI metadata

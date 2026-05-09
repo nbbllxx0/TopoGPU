@@ -66,7 +66,7 @@ result = tg.SIMPSolver(
 - `tests/` import/filter/API smoke tests
 - `docs/` installation, quickstart, reproducibility, and limitations pages
 - `paper/` short software-paper draft and bibliography
-- `CITATION.cff` with repository metadata and DOI slot pending the Zenodo archive
+- `CITATION.cff` with repository and Zenodo DOI metadata
 
 ## Legacy Solver Paper Context
 
@@ -314,5 +314,6 @@ If figure generation fails:
 ## Citation and License
 
 Citation metadata are recorded in `CITATION.cff`. The paper is available at
-https://arxiv.org/abs/2604.26441. The release license is BSD 3-Clause; see
-`LICENSE`.
+https://arxiv.org/abs/2604.26441. The archived TopoGPU software DOI is
+https://doi.org/10.5281/zenodo.20100693. The release license is BSD
+3-Clause; see `LICENSE`.

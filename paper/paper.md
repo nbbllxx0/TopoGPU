@@ -125,9 +125,9 @@ what it verifies, and how to cite it.
 
 Repository URL: `https://github.com/nbbllxx0/TopoGPU`
 
-Release: `v0.1.0` pending public tag.
+Release: `v0.1.0`.
 
-Archived DOI: pending Zenodo release.
+Archived DOI: `10.5281/zenodo.20100693`.
 
 License: BSD-3-Clause.
 

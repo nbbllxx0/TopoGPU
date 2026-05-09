@@ -45,7 +45,7 @@ def main(argv: list[str] | None = None) -> int:
         print("TopoGPU: GPU-Accelerated 3D SIMP Topology Optimization in Python")
         print("Version: " + __version__)
         print("Repository: https://github.com/nbbllxx0/TopoGPU")
-        print("DOI: pending Zenodo release")
+        print("DOI: 10.5281/zenodo.20100693")
         return 0
     if args.command == "list-cases":
         print("cantilever_3d")

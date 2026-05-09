@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the TopoGPU software release. DOI metadata is pending the first Zenodo archive."
+message: "If you use this software, please cite the TopoGPU software release."
 title: "TopoGPU: GPU-Accelerated 3D SIMP Topology Optimization in Python"
 type: software
 authors:
@@ -13,6 +13,7 @@ authors:
     given-names: Yunsheng
     affiliation: "Santa Clara University"
 repository-code: "https://github.com/nbbllxx0/TopoGPU"
+doi: 10.5281/zenodo.20100693
 license: BSD-3-Clause
 version: "0.1.0"
 date-released: "2026-05-09"
@@ -35,5 +36,6 @@ preferred-citation:
     - family-names: Wang
       given-names: Yunsheng
   year: 2026
+  doi: 10.5281/zenodo.20100693
   repository-code: "https://github.com/nbbllxx0/TopoGPU"
-  notes: "DOI pending Zenodo archive of v0.1.0."
+  notes: "Archived software release v0.1.0."

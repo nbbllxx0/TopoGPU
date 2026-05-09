@@ -2,17 +2,17 @@
 
 ## Required Before Submission
 
-- [ ] Confirm `https://github.com/nbbllxx0/TopoGPU` is public and browsable.
-- [ ] Confirm BSD-3-Clause license is visible in the public repository.
-- [ ] Create and test a fresh `topogpu` environment from `environment.yml`.
-- [ ] Run `pip install -e .`.
-- [ ] Run `python -c "import topogpu; print(topogpu.__version__)"`.
-- [ ] Run `python examples/cantilever_3d.py --small`.
-- [ ] Run `topogpu verify`.
-- [ ] Run `pytest`.
-- [ ] Publish `v0.1.0` GitHub release.
-- [ ] Archive release with Zenodo.
-- [ ] Insert DOI into `CITATION.cff`, `README.md`, docs, and `paper.md`.
+- [x] Confirm `https://github.com/nbbllxx0/TopoGPU` is public and browsable.
+- [x] Confirm BSD-3-Clause license is visible in the public repository.
+- [x] Create and test a fresh `topogpu` environment from `environment.yml`.
+- [x] Run `pip install -e .`.
+- [x] Run `python -c "import topogpu; print(topogpu.__version__)"`.
+- [x] Run `python examples/cantilever_3d.py --small`.
+- [x] Run `topogpu verify`.
+- [x] Run `pytest`.
+- [x] Publish `v0.1.0` GitHub release.
+- [x] Archive release with Zenodo.
+- [x] Insert DOI into `CITATION.cff`, `README.md`, docs, and `paper.md`.
 
 ## Recommended Before Submission
 
