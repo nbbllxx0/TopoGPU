@@ -144,10 +144,4 @@ Documentation: `https://github.com/nbbllxx0/TopoGPU/tree/main/docs`.
 
 Issue tracker and pull requests: `https://github.com/nbbllxx0/TopoGPU/issues`.
 
-# AI Usage Disclosure
-
-AI-assisted tools were used during drafting, software packaging, and
-documentation cleanup. The authors reviewed, edited, and verified the submitted
-manuscript, source code, tests, commands, and release metadata.
-
 # References
