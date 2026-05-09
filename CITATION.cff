@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use this software, please cite the accompanying paper."
-title: "A Failure-Aware Matrix-Free Galerkin Multigrid Preconditioner for Single-GPU 3D SIMP Elasticity Systems"
+message: "If you use this software, please cite the TopoGPU software release. DOI metadata is pending the first Zenodo archive."
+title: "TopoGPU: GPU-Accelerated 3D SIMP Topology Optimization in Python"
 type: software
 authors:
   - family-names: Yang
@@ -12,22 +12,21 @@ authors:
   - family-names: Wang
     given-names: Yunsheng
     affiliation: "Santa Clara University"
-repository-code: "https://github.com/nbbllxx0/Mixed-Precision-GMG-SIMP"
+repository-code: "https://github.com/nbbllxx0/TopoGPU"
 license: BSD-3-Clause
-version: "1.0.0"
-date-released: "2026-04-21"
+version: "0.1.0"
+date-released: "2026-05-09"
 keywords:
   - topology optimization
   - SIMP
   - geometric multigrid
   - mixed precision
   - GPU
-  - BF16
-  - tensor cores
-  - FGMRES
+  - reproducibility
+  - research software
 preferred-citation:
-  type: article
-  title: "A Failure-Aware Matrix-Free Galerkin Multigrid Preconditioner for Single-GPU 3D SIMP Elasticity Systems"
+  type: software
+  title: "TopoGPU: GPU-Accelerated 3D SIMP Topology Optimization in Python"
   authors:
     - family-names: Yang
       given-names: Shaoliang
@@ -36,7 +35,5 @@ preferred-citation:
     - family-names: Wang
       given-names: Yunsheng
   year: 2026
-  journal: "arXiv preprint"
-  doi: "10.48550/arXiv.2604.26441"
-  url: "https://arxiv.org/abs/2604.26441"
-  notes: "arXiv:2604.26441"
+  repository-code: "https://github.com/nbbllxx0/TopoGPU"
+  notes: "DOI pending Zenodo archive of v0.1.0."

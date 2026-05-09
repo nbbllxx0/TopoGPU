@@ -14,8 +14,11 @@ Usage:
 from __future__ import annotations
 
 import os
+import shutil
 import sys
+import tempfile
 import time
+import uuid
 from pathlib import Path
 
 # Environment bootstrap -- keep CuPy's persistent JIT cache inside the release
@@ -25,7 +28,50 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 cache_dir = ROOT / ".cupy_cache"
 cache_dir.mkdir(exist_ok=True)
+runtime_tmp = ROOT / ".runtime_tmp"
+runtime_tmp.mkdir(exist_ok=True)
 os.environ.setdefault("CUPY_CACHE_DIR", str(cache_dir))
+os.environ.setdefault("CUPY_CACHE_IN_MEMORY", "1")
+os.environ.setdefault("TEMP", str(runtime_tmp))
+os.environ.setdefault("TMP", str(runtime_tmp))
+os.environ.setdefault("TMPDIR", str(runtime_tmp))
+tempfile.tempdir = str(runtime_tmp)
+
+
+class _WorkspaceTemporaryDirectory:
+    """CuPy/NVRTC temp dirs need normal workspace ACLs in this sandbox."""
+
+    def __init__(self, suffix=None, prefix=None, dir=None, ignore_cleanup_errors=False):
+        base = Path(dir) if dir is not None else runtime_tmp
+        name = f"{prefix or 'tmp'}{uuid.uuid4().hex}{suffix or ''}"
+        self.name = str(base / name)
+        self._ignore_cleanup_errors = ignore_cleanup_errors
+        Path(self.name).mkdir(parents=True, exist_ok=False)
+
+    def __enter__(self):
+        return self.name
+
+    def __exit__(self, exc_type, exc, tb):
+        self.cleanup()
+        return False
+
+    def cleanup(self):
+        shutil.rmtree(self.name, ignore_errors=True)
+
+
+tempfile.TemporaryDirectory = _WorkspaceTemporaryDirectory
+
+for cuda_root in (
+    os.environ.get("CUDA_PATH"),
+    os.environ.get("CUDA_HOME"),
+    r"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.0",
+    r"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.1",
+):
+    if not cuda_root:
+        continue
+    cuda_bin = Path(cuda_root) / "bin"
+    if cuda_bin.exists() and hasattr(os, "add_dll_directory"):
+        os.add_dll_directory(str(cuda_bin))
 
 sys.path.insert(0, str(ROOT / "src"))
 

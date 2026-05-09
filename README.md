@@ -1,3 +1,78 @@
+# TopoGPU
+
+GPU-accelerated 3D SIMP topology optimization in Python, with structured case
+definitions, matrix-free SolverV4 state solves, bounded OC updates,
+verification checks, and manifest-tracked evidence bundles.
+
+This repository is being prepared as the package-first release for the
+toolkit/software paper:
+
+> **TopoGPU: GPU-Accelerated 3D SIMP Topology Optimization in Python**
+
+The package currently wraps the verified `gpu_fem` SolverV4 research core while
+the paper-facing scripts are being consolidated into a stable public API.
+
+## Package Quick Start
+
+```bash
+git clone https://github.com/nbbllxx0/TopoGPU.git
+cd topogpu
+conda env create -f environment.yml
+conda activate topogpu
+pip install -e .
+python -c "import topogpu; print(topogpu.__version__)"
+python examples/cantilever_3d.py --small
+topogpu verify
+```
+
+On RTX 50-series / CUDA 13 workstations, make sure the CUDA 13 toolkit is the
+active toolkit before running GPU verification:
+
+```powershell
+$env:CUDA_PATH='C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v13.0'
+$env:CUDA_HOME=$env:CUDA_PATH
+$env:PATH="$env:CUDA_PATH\bin;$env:PATH"
+```
+
+Minimal Python API:
+
+```python
+import topogpu as tg
+
+problem = tg.gallery.cantilever_3d(nel=(24, 12, 6), volfrac=0.30)
+result = tg.SIMPSolver(backend="cpu", max_iter=3).solve(problem)
+result.save("runs/cantilever_3d")
+```
+
+SolverV4 GPU path:
+
+```python
+result = tg.SIMPSolver(
+    backend="cuda",
+    linear_solver="pcg_gmg",
+    tol=1e-5,
+    max_krylov=800,
+    max_iter=12,
+).solve(problem)
+```
+
+## Public Release Checklist
+
+- `pyproject.toml` for editable/package installation
+- `src/topogpu/` public API facade
+- `src/gpu_fem/` existing SolverV4 implementation core
+- `examples/` runnable package examples
+- `cases/` YAML case-suite declarations
+- `tests/` import/filter/API smoke tests
+- `docs/` installation, quickstart, reproducibility, and limitations pages
+- `paper/` short software-paper draft and bibliography
+- `CITATION.cff` with repository metadata and DOI slot pending the Zenodo archive
+
+## Legacy Solver Paper Context
+
+The solver core below remains the technical basis for TopoGPU's SolverV4
+backend and the longer technical/performance manuscript.
+
 # A Failure-Aware Matrix-Free Galerkin Multigrid Preconditioner for Single-GPU 3D SIMP Elasticity Systems
 
 Code-only public release accompanying:
@@ -50,22 +125,24 @@ GMG-integrated solver path, and the drivers used to evaluate solver behavior.
   does not.
 - Python and package versions are pinned in `environment.yml`.
 
-The code is primarily set up for an Ampere-or-newer CUDA stack. If your GPU
-does not expose BF16 WMMA, the FP32/FP64 paths still remain useful for partial
-experiments, but BF16-specific rows and tensor-core proxy measurements are not
-directly comparable.
+The TopoGPU release environment pins `cupy-cuda13x` for current CUDA 13
+workstations. If your GPU does not expose BF16 WMMA, the FP32/FP64 paths still
+remain useful for partial experiments, but BF16-specific rows and tensor-core
+proxy measurements are not directly comparable.
 
-## Installation
+## Legacy Solver-Core Installation
 
 ```bash
-git clone https://github.com/nbbllxx0/Mixed-Precision-GMG-SIMP.git
-cd Mixed-Precision-GMG-SIMP
+git clone https://github.com/nbbllxx0/TopoGPU.git
+cd topogpu
 conda env create -f environment.yml
-conda activate gmg-simp
+conda activate topogpu
+pip install -e .
 ```
 
-The experiment and figure scripts resolve paths relative to the repository root
-and do not require `pip install -e .`.
+The older experiment and figure scripts still resolve paths relative to the
+repository root, but the package-first workflow should use the editable install
+and the `topogpu` command.
 
 ## Quick Sanity Check
 

@@ -13,6 +13,7 @@ dist/
 .venv/
 venv/
 env/
+.local_site/
 
 # CUDA / CuPy
 .cupy_cache/
@@ -30,6 +31,7 @@ env/
 # Experiment outputs and local build artifacts
 results_phase1.json
 results_e1_e10_summary.json
+runs/
 
 # Fresh benchmark outputs land at experiments/paper4/*.csv or explicit rerun
 # directories.
@@ -44,3 +46,7 @@ rerun_outputs/
 
 # Logs
 *.log
+*.err
+
+# Workspace-local runtime bootstrap used only for sandboxed local reruns
+sitecustomize.py

@@ -1,0 +1,8 @@
+name: cantilever_3d
+nel: [24, 12, 6]
+volfrac: 0.30
+filter_radius: 1.5
+support: xmin
+load: tip_point_y
+role: example
+

@@ -43,6 +43,15 @@ from .paths import ensure_local_paths
 
 ensure_local_paths(__file__)
 
+
+def _cupyx_cg_compat(cpspla, A, b, *, tol, **kwargs):
+    try:
+        return cpspla.cg(A, b, tol=tol, **kwargs)
+    except TypeError as exc:
+        if "tol" not in str(exc):
+            raise
+        return cpspla.cg(A, b, rtol=tol, **kwargs)
+
 try:
     from .pub_simp_solver import _AMGSolver
     _PYAMG_AVAILABLE = True
@@ -470,7 +479,8 @@ class GPUFEMSolver:
         )
 
         # Solve Kff U = F_free
-        U_free_gpu, info = cpspla.cg(
+        U_free_gpu, info = _cupyx_cg_compat(
+            cpspla,
             Kff, self._F_free_gpu,
             tol=self.cg_tol, maxiter=self.cg_maxiter, M=M_op,
         )

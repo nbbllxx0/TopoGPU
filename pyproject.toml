@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "topogpu"
+version = "0.1.0"
+description = "GPU-accelerated 3D SIMP topology optimization toolkit with verification and artifact manifests."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "BSD-3-Clause"}
+authors = [
+  {name = "Shaoliang Yang"},
+  {name = "Jun Wang"},
+  {name = "Yunsheng Wang"},
+]
+keywords = [
+  "topology optimization",
+  "SIMP",
+  "GPU",
+  "CUDA",
+  "matrix-free",
+  "geometric multigrid",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "numpy>=2.0",
+  "scipy>=1.14",
+  "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+gpu = ["cupy-cuda13x>=14.0"]
+viz = ["pyvista>=0.46", "scikit-image>=0.25"]
+test = ["pytest>=8.0"]
+docs = ["mkdocs>=1.6"]
+all = [
+  "cupy-cuda13x>=14.0",
+  "pyvista>=0.46",
+  "scikit-image>=0.25",
+  "pytest>=8.0",
+  "mkdocs>=1.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/nbbllxx0/TopoGPU"
+Repository = "https://github.com/nbbllxx0/TopoGPU"
+Issues = "https://github.com/nbbllxx0/TopoGPU/issues"
+
+[project.scripts]
+topogpu = "topogpu.cli:main"
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]

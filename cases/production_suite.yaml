@@ -1,0 +1,17 @@
+name: production_suite
+cases:
+  - tool_short_cantilever_vf25
+  - tool_deep_cantilever_vf20
+  - tool_oblique_cantilever_vf22
+  - tool_side_load_cantilever_vf24
+  - tool_dual_load_cantilever_vf26
+criteria:
+  residual_max: 1.0e-5
+  cap_hits: 0
+  volume_error_max: 1.0e-3
+  required_artifacts:
+    - history.csv
+    - summary.json
+    - rho_final.npy
+    - ARTIFACT_MANIFEST.csv
+

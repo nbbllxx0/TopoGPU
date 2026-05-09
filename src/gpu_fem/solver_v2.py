@@ -52,7 +52,7 @@ from typing import Optional, Tuple
 import numpy as np
 import scipy.sparse as sp
 
-from .fem_gpu import GPUFEMSolver
+from .fem_gpu import GPUFEMSolver, _cupyx_cg_compat
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -457,7 +457,8 @@ def _mixed_precision_solve(
             break
 
         r32    = r64.astype(cp.float32)
-        delta, info = cpspla.cg(
+        delta, info = _cupyx_cg_compat(
+            cpspla,
             Kff_fp32, r32,
             tol=max(tol * 0.1, 1e-6),
             maxiter=maxiter,
@@ -2021,7 +2022,8 @@ class SolverV2(GPUFEMSolver):
             def _cg_callback(_xk):
                 _iters[0] += 1
 
-            U_free_cg, info = cpspla.cg(
+            U_free_cg, info = _cupyx_cg_compat(
+                cpspla,
                 Kff, F_cg,
                 x0=x0, tol=self.cg_tol, maxiter=self.cg_maxiter, M=M_op,
                 callback=_cg_callback,
@@ -2033,7 +2035,8 @@ class SolverV2(GPUFEMSolver):
                 # that weren't caught by penal-jump detection, e.g. beta changes).
                 # Retry from zero — cheap since we pay maxiter only once.
                 _iters[0] = 0
-                U_free_cg, info = cpspla.cg(
+                U_free_cg, info = _cupyx_cg_compat(
+                    cpspla,
                     Kff, F_cg, x0=None,
                     tol=self.cg_tol, maxiter=self.cg_maxiter, M=M_op,
                     callback=_cg_callback,

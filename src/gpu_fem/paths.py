@@ -23,7 +23,12 @@ def resolve_local_paths(start: str | Path | None = None) -> LocalPaths:
         src_dir = repo_root / "src"
         package_dir = src_dir / "gpu_fem"
         scripts_dir = repo_root / "scripts"
-        if package_dir.exists() and scripts_dir.exists():
+        release_entrypoints = (
+            (repo_root / "ci").exists()
+            or (repo_root / "experiments").exists()
+            or (repo_root / "figures").exists()
+        )
+        if package_dir.exists() and (scripts_dir.exists() or release_entrypoints):
             return LocalPaths(
                 repo_root=repo_root,
                 src_dir=src_dir,

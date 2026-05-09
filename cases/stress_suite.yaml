@@ -1,0 +1,7 @@
+name: stress_suite
+cases:
+  - tool_portal_bridge_vf18
+  - tool_asymmetric_bracket_vf14
+role: stress_diagnostic
+notes: "Low-volume non-cantilever cases are diagnostic until residual/cap gates pass."
+

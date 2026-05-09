@@ -1,0 +1,197 @@
+{
+  "version": 2,
+  "purpose": "Evidence-gated sample matrix for the GPU TopOpt tool-paper feasibility run.",
+  "constraints": [
+    "Use only inside the isolated copied codebase.",
+    "Prefer dimensions that preserve a useful geometric multigrid hierarchy.",
+    "Treat timings as preliminary until repeatability/warmup runs are completed.",
+    "Do not use Phase 3 registry topologies as the main tool-paper visual novelty.",
+    "Use the Phase 4 SolverV4 fused CUDA + matrix-free GMG path for accepted solver/performance evidence."
+  ],
+  "paper_lineage_boundary": {
+    "phase3_registry_cases": "verification_only",
+    "phase4_acceleration_path": "implementation_reference_for_local_solverv4_runner",
+    "current_tool_paper_cases": "new_bc_load_vf_geometry_required_for_main_figures"
+  },
+  "accepted_solver_backend_for_new_cases": {
+    "solver": "SolverV4",
+    "required_flags": {
+      "enable_matrix_free": true,
+      "enable_fused_cuda": true,
+      "enable_matfree_gmg": true,
+      "grid_dims": "required"
+    },
+    "source_reference": "E:/Codex/Phase 4/experiments/paper4/run_experiments_e1_e10.py::e3_simp_speedup",
+    "status": "must_be_used_for_final_new_case_solver_or_performance_evidence"
+  },
+  "solver_smoke": [
+    {
+      "case": "cantilever_3d",
+      "role": "small baseline",
+      "status": "passed",
+      "evidence": "rerun_outputs/tool_paper_initial/uniform_probe_summary.csv"
+    },
+    {
+      "case": "cantilever_3d_large",
+      "role": "small scaled baseline",
+      "status": "passed",
+      "evidence": "rerun_outputs/tool_paper_scaling_cantilever/uniform_probe_summary.csv"
+    }
+  ],
+  "main_solver_validation": [
+    {
+      "case": "cantilever_gpu_medium",
+      "role": "medium cantilever",
+      "status": "passed",
+      "evidence": "rerun_outputs/tool_paper_initial/uniform_probe_summary.csv"
+    },
+    {
+      "case": "torsion_gpu_medium",
+      "role": "non-cantilever torsion",
+      "status": "passed",
+      "evidence": "rerun_outputs/tool_paper_non_cantilever/uniform_probe_summary.csv"
+    },
+    {
+      "case": "bridge_gpu_medium@96x32x16",
+      "role": "even-grid bridge replacement",
+      "status": "passed",
+      "evidence": "rerun_outputs/tool_paper_even_non_cantilever/uniform_probe_summary.csv"
+    },
+    {
+      "case": "bracket_gpu_medium@32x64x16",
+      "role": "even-grid bracket replacement",
+      "status": "passed",
+      "evidence": "rerun_outputs/tool_paper_even_non_cantilever/uniform_probe_summary.csv"
+    }
+  ],
+  "scaling_probe": [
+    {
+      "case": "cantilever_gpu_medium@96x48x24",
+      "role": "even-grid medium-plus cantilever",
+      "status": "passed",
+      "evidence": "rerun_outputs/tool_paper_scaling_cantilever/uniform_probe_summary.csv"
+    },
+    {
+      "case": "cantilever_gpu_large@128x64x32",
+      "role": "262k even-grid cantilever",
+      "status": "passed",
+      "evidence": "rerun_outputs/tool_paper_scaling_cantilever/uniform_probe_summary.csv"
+    }
+  ],
+  "stress_or_diagnostic": [
+    {
+      "case": "mbb_gpu_medium@96x32x16",
+      "role": "harder MBB diagnostic",
+      "status": "passed_stress",
+      "evidence": "rerun_outputs/tool_paper_even_non_cantilever/uniform_probe_summary.csv",
+      "note": "Converged, but required 119 PCG iterations and coarsest-matrix regularization was reported."
+    }
+  ],
+  "do_not_use_as_primary_validation": [
+    {
+      "case": "bridge_gpu_medium",
+      "role": "original odd-depth bridge preset",
+      "status": "failed",
+      "evidence": [
+        "rerun_outputs/tool_paper_non_cantilever/uniform_probe_summary.csv",
+        "rerun_outputs/tool_paper_non_cantilever_fgmres/uniform_probe_summary.csv"
+      ],
+      "reason": "nelz=15 collapses the GMG hierarchy to one level and fails the residual target under both PCG and FGMRES."
+    },
+    {
+      "case": "bracket_gpu_medium",
+      "role": "original odd-depth bracket preset",
+      "status": "failed",
+      "evidence": [
+        "rerun_outputs/tool_paper_non_cantilever/uniform_probe_summary.csv",
+        "rerun_outputs/tool_paper_non_cantilever_fgmres/uniform_probe_summary.csv"
+      ],
+      "reason": "nelz=15 collapses the GMG hierarchy to one level and fails the residual target under both PCG and FGMRES."
+    }
+  ],
+  "topology_visualization": [
+    {
+      "artifact": "rerun_outputs/tool_paper_topology_3d/F11_main_context.png",
+      "role": "true 3D topology render gate",
+      "status": "generated_and_visually_checked"
+    },
+    {
+      "artifact": "rerun_outputs/tool_paper_topology_3d/F11_gallery.pdf",
+      "role": "true 3D topology render gallery",
+      "status": "generated"
+    }
+  ],
+  "phase3_registry_production_topologies_verification_only": [
+    {
+      "case": "cantilever_216k",
+      "bvp": "cantilever",
+      "role": "Phase 3 registry production cantilever topology",
+      "status": "passed_verification_only",
+      "evidence": "rerun_outputs/tool_paper_fresh_216k/cantilever_216k_meta.json",
+      "render": "rerun_outputs/tool_paper_fresh_216k_standard_render/fresh_cantilever_216k.png",
+      "note": "Local rerun verifies the production/rendering pipeline, but this topology setting is not new for the tool paper."
+    },
+    {
+      "case": "bridge_216k",
+      "bvp": "bridge",
+      "role": "Phase 3 registry support-transfer bridge topology",
+      "status": "passed_verification_only",
+      "evidence": "rerun_outputs/tool_paper_fresh_multi_bc/bridge_216k_meta.json",
+      "render": "rerun_outputs/tool_paper_fresh_multi_bc_standard_render/fresh_bridge_216k.png",
+      "note": "Verification-only because the case belongs to the Phase 3 registry."
+    },
+    {
+      "case": "doubleclamp_216k",
+      "bvp": "doubleclamp",
+      "role": "Phase 3 registry double-clamped support topology",
+      "status": "passed_verification_only",
+      "evidence": "rerun_outputs/tool_paper_fresh_multi_bc/doubleclamp_216k_meta.json",
+      "render": "rerun_outputs/tool_paper_fresh_multi_bc_standard_render/fresh_doubleclamp_216k.png",
+      "note": "Verification-only because the case belongs to the Phase 3 registry."
+    },
+    {
+      "case": "torsion_500k",
+      "bvp": "torsion",
+      "role": "Phase 3 registry torque-loading topology",
+      "status": "passed_verification_only_visually_weak",
+      "evidence": "rerun_outputs/tool_paper_fresh_multi_bc/torsion_500k_meta.json",
+      "render": "rerun_outputs/tool_paper_fresh_multi_bc_standard_render/fresh_torsion_500k.png",
+      "note": "Verification-only; less illustrative as a manuscript figure because the iso-surface reads like a closed shaft and the run had many Jacobi cap warnings."
+    }
+  ],
+  "new_toolpaper_topology_targets": [
+    {
+      "case": "tool_long_cantilever_vf16",
+      "bvp": "patch-loaded long/deep cantilever",
+      "target_role": "main new visual candidate",
+      "required_backend": "SolverV4 fused CUDA + matrix-free GMG for accepted evidence",
+      "status": "completed_larger_solverv4_visual_candidate_cap_diagnostic_needed",
+      "evidence": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large/tool_long_cantilever_vf16/summary.json",
+      "render": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large/tool_long_cantilever_vf16/render.png",
+      "colored_render": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large_colored/tool_long_cantilever_vf16_colored_clean.png",
+      "note": "20-iteration larger warm-batch run completed at 96x48x48 / 221,184 elements, final grayness 0.00622, warm mean 2.46 s excluding first iteration, and max history GPU memory about 11.1 GB. One linear solve hit the 800-iteration cap, so use as visual/backend evidence and cap-diagnostic evidence, not a final performance row."
+    },
+    {
+      "case": "tool_portal_bridge_vf18",
+      "bvp": "portal bridge with lower volume fraction",
+      "target_role": "main new visual candidate",
+      "required_backend": "SolverV4 fused CUDA + matrix-free GMG for accepted evidence",
+      "status": "completed_larger_solverv4_visual_candidate_cap_diagnostic_needed",
+      "evidence": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large/tool_portal_bridge_vf18/summary.json",
+      "render": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large/tool_portal_bridge_vf18/render.png",
+      "colored_render": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large_colored/tool_portal_bridge_vf18_colored_clean.png",
+      "note": "20-iteration larger warm-batch run completed at 112x56x40 / 250,880 elements, final grayness 0.00562, warm mean 3.91 s excluding first iteration, and max history GPU memory about 11.9 GB. Nine linear solves hit the 800-iteration cap, so this is not a final performance row."
+    },
+    {
+      "case": "tool_asymmetric_bracket_vf14",
+      "bvp": "asymmetric bracket with oblique load",
+      "target_role": "main new visual candidate",
+      "required_backend": "SolverV4 fused CUDA + matrix-free GMG for accepted evidence",
+      "status": "completed_larger_solverv4_visual_candidate_cap_diagnostic_needed",
+      "evidence": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large/tool_asymmetric_bracket_vf14/summary.json",
+      "render": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large/tool_asymmetric_bracket_vf14/render.png",
+      "colored_render": "rerun_outputs/tool_paper_new_topology_solverv4_warm_large_colored/tool_asymmetric_bracket_vf14_colored_clean.png",
+      "note": "20-iteration larger warm-batch run completed at 96x64x40 / 245,760 elements, final grayness 0.00464, warm mean 3.67 s excluding first iteration, and max history GPU memory about 11.8 GB. Eight linear solves hit the 800-iteration cap, so this is not a final performance row."
+    }
+  ]
+}
